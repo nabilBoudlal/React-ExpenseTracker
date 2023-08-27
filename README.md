@@ -1,8 +1,6 @@
-# FirebaseExtended Expense Tracker
+# Firebase Expense Tracker
 
-![Expense Tracker](./screenshot.png)
-
-Expense Tracker è un'applicazione di monitoraggio delle spese che utilizza Firebase come backend per archiviare e gestire i dati delle spese. Questa app ti consente di registrare le tue spese quotidiane, tener traccia di esse e avere una panoramica delle tue finanze personali.
+Expense Tracker è un'applicazione realizzata in React per il monitoraggio delle spese che utilizza Firebase come backend per archiviare e gestire i dati delle spese. Questa app ti consente di registrare le tue spese quotidiane, tener traccia di esse e avere una panoramica delle tue finanze personali.
 
 ## Caratteristiche
 
