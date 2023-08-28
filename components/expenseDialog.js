@@ -82,7 +82,8 @@ export default function ExpenseDialog(props) {
     setIsSubmitting(false);
     props.onCloseDialog();
   }
-
+  
+  // Store receipt information to Storage and Firestore
   const handleSubmit = async () => {
     setIsSubmitting(true);
 

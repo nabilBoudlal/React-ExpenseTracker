@@ -47,10 +47,10 @@ export default function ReceiptRow(props) {
                     <Stack direction="row" className={styles.contentRow}>
                         <Stack direction="column" sx={{ flexGrow: 1 }}>
                             <Typography variant="h3">
-                                {format(receipt.date, 'MM/dd/yy')}
+                                Data:{format(receipt.date, 'MM/dd/yy')}
                             </Typography> 
                             <Typography variant="h4">
-                                ${receipt.amount}
+                                Euro:{receipt.amount}
                             </Typography>
                         </Stack>
                         <Stack direction="column" sx={{ flexGrow: 1 }}>

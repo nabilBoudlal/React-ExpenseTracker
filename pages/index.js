@@ -58,13 +58,13 @@ export default function Home() {
 
       <main>
         <Container className={styles.container}>
-          <Typography variant="h1">Welcome to Expense Tracker!</Typography>
-          <Typography variant="h2">Add, view, edit, and delete expenses</Typography>
+          <Typography variant="h1">Benvenuto su ExpenseTracker</Typography>
+          <Typography variant="h2">La tua applicazione web per tenere traccia delle tue spese</Typography>
           <div className={styles.buttons}>
             <Button variant="contained" color="secondary"
                onClick={() => setLogin(true)}>
 
-              Login / Register
+              Login / SignUp
             </Button>
           </div>
           <Dialog open={login} onClose={()=> setLogin(false)}>

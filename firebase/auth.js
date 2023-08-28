@@ -21,7 +21,8 @@ import { auth } from './firebase';
 
 const AuthUserContext = createContext({
     authUser: null,
-    isLoading: true
+    isLoading: true,
+    signOut: async () => {}
 });
 
 export default function useFirebaseAuth(){
@@ -46,9 +47,7 @@ export default function useFirebaseAuth(){
         setIsLoading(false);
     };
 
-    const signOut = ()=> authSignOut(auth).then(()=>{
-     clear();
-    })
+    const signOut = ()=> authSignOut(auth).then(clear());
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, authStateChanged);
