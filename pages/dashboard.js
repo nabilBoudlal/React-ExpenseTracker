@@ -1,20 +1,3 @@
-/**
- * @license
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -29,9 +12,6 @@ import { deleteImage } from '../firebase/storage';
 import styles from '../styles/dashboard.module.scss';
 import React from 'react';
 import styled from '@mui/system/styled';
-
-
-
 
 
 const ADD_SUCCESS = "Receipt was successfully added!";
@@ -49,12 +29,18 @@ export const RECEIPTS_ENUM = Object.freeze({
   delete: 3,
 });
 
+/* The `SUCCESS_MAP` constant is an object that maps the different actions (add, edit, delete) to their
+corresponding success messages. It is used to display the appropriate success message in the
+snackbar when a certain action is successfully completed. */
 const SUCCESS_MAP = {
   [RECEIPTS_ENUM.add]: ADD_SUCCESS,
   [RECEIPTS_ENUM.edit]: EDIT_SUCCESS,
   [RECEIPTS_ENUM.delete]: DELETE_SUCCESS
 }
 
+/* The `ERROR_MAP` constant is an object that maps the different actions (add, edit, delete) to their
+corresponding error messages. It is used to display the appropriate error message in the snackbar
+when a certain action fails to complete successfully. */
 const ERROR_MAP = {
   [RECEIPTS_ENUM.add]: ADD_ERROR,
   [RECEIPTS_ENUM.edit]: EDIT_ERROR,
@@ -80,7 +66,18 @@ export default function Dashboard() {
   const [showSuccessSnackbar, setSuccessSnackbar] = useState(false);
   const [showErrorSnackbar, setErrorSnackbar] = useState(false);
 
-  // Sets appropriate snackbar message on whether @isSuccess and updates shown receipts if necessary
+  
+  /**
+   * The function `onResult` sets a snackbar message based on the success or failure of a receipt and
+   * updates the snackbar state accordingly.
+   * @param receiptEnum - The `receiptEnum` parameter is an enumeration value that represents a
+   * specific type of receipt. It is used to determine the message to display in the snackbar based on
+   * whether the operation was successful or not.
+   * @param isSuccess - The `isSuccess` parameter is a boolean value that indicates whether the
+   * operation was successful or not. If `isSuccess` is `true`, it means the operation was successful.
+   * 
+   * If `isSuccess` is `false`, it means the operation encountered an error.
+   */
   const onResult = async (receiptEnum, isSuccess) => {
     setSnackbarMessage(isSuccess ? SUCCESS_MAP[receiptEnum] : ERROR_MAP[receiptEnum]);
     isSuccess ? setSuccessSnackbar(true) : setErrorSnackbar(true);
@@ -88,7 +85,13 @@ export default function Dashboard() {
   }
 
 
-  // Listen to changes for loading and authUser, redirect if needed
+/** 
+  * The `useEffect` hook is used to redirect the user to the login page if they are not authenticated
+  * (`authUser` is `null`) and the loading process (`isLoading`) has finished. It listens for changes in
+  * the `authUser` and `isLoading` variables and triggers the callback function when either of them
+  * changes. If the condition `!isLoading && !authUser` is true, it means that the user is not
+  * authenticated and the loading process has finished, so the user is redirected to the login page
+  * using `router.push('/')`. */
   useEffect(() => {
     if (!isLoading && !authUser) {
       router.push('/');
@@ -96,7 +99,9 @@ export default function Dashboard() {
   }, [authUser, isLoading]);
 
 
-  // Get receipts
+  
+  /* The `useEffect` hook is used to fetch the receipts for the authenticated 
+     user and update the`receipts` state variable. */
   useEffect(async () => {
     if (authUser) {
       const unsubscribe = await getReceipts(authUser.uid, setReceipts, setIsLoadingReceipts);
@@ -104,6 +109,8 @@ export default function Dashboard() {
     }
   }, [authUser])
 
+  /* The `useEffect` hook is used to calculate the total amount spent by the user and update the
+     `totalSpent` state variable. */
   useEffect(async () => {
     if (authUser) {
       const totalSpent = await calculateTotalSpent(authUser.uid);
@@ -111,36 +118,56 @@ export default function Dashboard() {
     }
   }, [authUser]);
 
-  // For all of the onClick functions, update the action and fields for updating
 
+  /**
+   * The onClickAdd function sets the action to add a receipt and updates the receipt object.
+   */
   const onClickAdd = () => {
     setAction(RECEIPTS_ENUM.add);
     setUpdateReceipt({});
   }
 
+  /**
+   * The onUpdate function sets the action to "edit" and updates the receipt.
+   * @param receipt - The `receipt` parameter is an object that represents a receipt. It likely
+   * contains various properties such as the receipt ID, the items purchased, the total amount, the
+   * date of purchase, etc.
+   */
   const onUpdate = (receipt) => {
     setAction(RECEIPTS_ENUM.edit);
     setUpdateReceipt(receipt);
   }
 
+ /**
+  * The onClickDelete function sets the action, receipt ID, and image bucket for deleting a receipt.
+  * @param id - The `id` parameter is the unique identifier of the receipt that needs to be deleted.
+  * @param imageBucket - The `imageBucket` parameter is a string that represents the name or identifier
+  * of the bucket where the image associated with the receipt is stored.
+  */
   const onClickDelete = (id, imageBucket) => {
     setAction(RECEIPTS_ENUM.delete);
     setDeleteReceiptId(id);
     setDeleteReceiptImageBucket(imageBucket);
   }
 
+ /**
+  * The function `resetDelete` resets the action and deleteReceiptId variables to their initial values.
+  */
   const resetDelete = () => {
     setAction(RECEIPTS_ENUM.none);
     setDeleteReceiptId("");
   }
 
+/**
+ * The `onDelete` function deletes a receipt and its associated image, calculates the new total spent,
+ * and then calls the `onResult` function with the result.
+ */
   const onDelete = async () => {
     let isSucceed = true;
     try {
       await deleteReceipt(deleteReceiptId);
       await deleteImage(deleteReceiptImageBucket);
 
-      // Calcola nuovamente il totale speso
       const newTotalSpent = await calculateTotalSpent(authUser.uid);
       setTotalSpent(newTotalSpent);
     } catch (error) {
@@ -150,6 +177,7 @@ export default function Dashboard() {
     onResult(RECEIPTS_ENUM.delete, isSucceed);
   }
 
+ // Create a styled component calledb `Item`. 
   const Item = styled('div')(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     border: '1px solid',
@@ -159,6 +187,7 @@ export default function Dashboard() {
     textAlign: 'center',
   }));
 
+ 
   return (
     <div>
       {!authUser ? (
