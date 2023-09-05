@@ -7,7 +7,6 @@ Expense Tracker è un'applicazione realizzata in React per il monitoraggio delle
 - Registrazione facile delle spese con dettagli come importo, categoria e data.
 - Visualizzazione chiara delle spese registrate con possibilità di ordinamento e filtraggio.
 - Aggiornamenti in tempo reale grazie all'integrazione con Firebase.
-- Grafico visivo per mostrare la distribuzione delle spese per categoria.
 - Autenticazione degli utenti tramite Firebase Authentication.
 
 
