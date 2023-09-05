@@ -35,10 +35,15 @@ export function addReceipt(uid, date,locationName, address, items, amount, image
 export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
     const receiptsQuery = query(collection(db, RECEIPT_COLLECTION), where("uid", "==", uid), orderBy("date", "desc"));
   
+    /* The code is setting up a listener for changes in the Firestore collection specified by the
+    `receiptsQuery` query. Whenever there is a change in the collection, the callback function is
+    executed. */
     const unsubscribe = onSnapshot(receiptsQuery, async (snapshot) => {
       let allReceipts = [];
       for (const documentSnapshot of snapshot.docs) {
         const receipt = documentSnapshot.data();
+        /* The code is pushing a new object into the `allReceipts` array. This object contains
+        properties from the `receipt` object, but with some modifications: */
         allReceipts.push({
           ...receipt, 
           date: receipt['date'].toDate(), 

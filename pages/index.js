@@ -36,8 +36,6 @@ export default function Home() {
   }, [authUser,isLoading])
 
 
-  /* `(isLoading || (!isLoading && !!authUser)` is a conditional statement that checks if the
-  `   isLoading` variable is true or if `isLoading` is false and `authUser` is truthy. */
   return ( (isLoading || (!isLoading && !!authUser)) ?
   /* displays a circular loading indicator. */
   <CircularProgress color='inherit' sx={{marginLeft: '50%',marginTop: '25%'}}/>

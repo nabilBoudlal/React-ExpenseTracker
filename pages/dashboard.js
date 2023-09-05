@@ -47,7 +47,9 @@ const ERROR_MAP = {
   [RECEIPTS_ENUM.delete]: DELETE_ERROR
 }
 
+
 export default function Dashboard() {
+
   const { authUser, isLoading } = useAuth();
   const router = useRouter();
   const [action, setAction] = useState(RECEIPTS_ENUM.none);
@@ -93,9 +95,7 @@ export default function Dashboard() {
   * authenticated and the loading process has finished, so the user is redirected to the login page
   * using `router.push('/')`. */
   useEffect(() => {
-    if (!isLoading && !authUser) {
-      router.push('/');
-    }
+    if (!isLoading && !authUser) { router.push('/'); }
   }, [authUser, isLoading]);
 
 
@@ -150,9 +150,10 @@ export default function Dashboard() {
     setDeleteReceiptImageBucket(imageBucket);
   }
 
- /**
-  * The function `resetDelete` resets the action and deleteReceiptId variables to their initial values.
-  */
+
+/**
+ * The function `resetDelete` resets the action and deleteReceiptId variables.
+ */
   const resetDelete = () => {
     setAction(RECEIPTS_ENUM.none);
     setDeleteReceiptId("");
@@ -247,12 +248,12 @@ export default function Dashboard() {
               </Typography>
               <Box sx={{ flexGrow: 1 }}>
               <Grid container spacing={-2} columns={16}>
-              <Grid xs={8}>
+              <Grid>
                 <Item><Typography variant="h4" sx={{ lineHeight: 2, paddingRight: '0.5em' }}>
                   La tua spesa minima: {Math.min(...receipts.map(item => item.amount))} euro {/* Mostra il valore con due decimali */}
                 </Typography></Item>
               </Grid>
-              <Grid xs={8}>
+              <Grid>
                 <Item><Typography variant="h4" sx={{ lineHeight: 2, paddingRight: '0.5em' }}>
                   La tua spesa massima: {Math.max(...receipts.map(item => item.amount))} euro {/* Mostra il valore con due decimali */}
                 </Typography></Item>

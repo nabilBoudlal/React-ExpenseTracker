@@ -3,8 +3,7 @@ import { useContext, useEffect, useState, createContext } from "react";
 import { auth } from './firebase';
 
 /* The code is creating a context object called `AuthUserContext` using the `createContext` function
-from React. The initial value of the context is an object with three properties: `authUser`,
-`isLoading`, and `signOut`. */
+from React. */
 const AuthUserContext = createContext({
     authUser: null,
     isLoading: true,
