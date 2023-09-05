@@ -38,7 +38,8 @@ export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
     /* The code is setting up a listener for changes in the Firestore collection specified by the
     `receiptsQuery` query. Whenever there is a change in the collection, the callback function is
     executed. */
-    const unsubscribe = onSnapshot(receiptsQuery, async (snapshot) => {
+    const unsubscribe = onSnapshot(receiptsQuery, 
+    async (snapshot) => {
       let allReceipts = [];
       for (const documentSnapshot of snapshot.docs) {
         const receipt = documentSnapshot.data();
@@ -57,12 +58,16 @@ export async function getReceipts(uid, setReceipts, setIsLoadingReceipts) {
     return unsubscribe;
   }
 
-  // Updates receipt with @docId with given information.
+  
+  /**
+   * The function `updateReceipt` updates a receipt document in a database with the provided
+   * information.
+   */
   export function updateReceipt(docId, uid, date, locationName, address, items, amount, imageBucket) {
     setDoc(doc(db, RECEIPT_COLLECTION, docId), { uid, date, locationName, address, items, amount, imageBucket });
   }
   
-  // Deletes receipt with given @id.
+  
   export function deleteReceipt(id) {
     deleteDoc(doc(db, RECEIPT_COLLECTION, id)); 
   }

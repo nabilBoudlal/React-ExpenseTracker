@@ -11,7 +11,7 @@ export default function NavBar() {
       <AppBar position="static" className={styles.appbar}>
         <Toolbar className={styles.toolbar}>
           <Container className={styles.container}>
-            <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "center" }}>
+            <Typography variant="h3" sx={{ flexGrow: 1, alignSelf: "center" }}>
               EXPENSE TRACKER
             </Typography>
             <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>

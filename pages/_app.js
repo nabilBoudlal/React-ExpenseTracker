@@ -1,7 +1,7 @@
 import '../styles/global.scss'
 import '../styles/firebaseui-styling.global.scss';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from '../styles/theme.js';
+import { darkTheme, theme } from '../styles/theme.js';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { AuthUserProvider } from '../firebase/auth';
